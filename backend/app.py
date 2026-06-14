@@ -276,6 +276,10 @@ def login():
             } if profile else None
         }
     })
+@app.route("/")
+def home():
+    return "Backend is running successfully 🚀"
+
 
 @app.route('/api/auth/me', methods=['GET'])
 def get_current_user():
