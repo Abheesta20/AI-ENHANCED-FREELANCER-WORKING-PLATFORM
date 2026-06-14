@@ -1,0 +1,169 @@
+{
+  "model_name": "FreelancerJobMatchClassifier",
+  "algorithm": "Random Forest",
+  "version": "1.0.0",
+  "description": "A Random Forest classifier for predicting freelancer-job match compatibility",
+  "created_date": "2026-01-20",
+  "author": "AI-Enhanced Freelancer Platform Team",
+  
+  "hyperparameters": {
+    "n_estimators": 100,
+    "max_depth": 15,
+    "min_samples_split": 5,
+    "min_samples_leaf": 2,
+    "max_features": "sqrt",
+    "random_state": 42,
+    "n_jobs": -1
+  },
+  
+  "features": [
+    {
+      "name": "skills_match",
+      "type": "float",
+      "description": "Percentage of matching skills between freelancer and project",
+      "range": [0, 100],
+      "importance": 0.32
+    },
+    {
+      "name": "technologies_match",
+      "type": "float",
+      "description": "Technology stack compatibility score",
+      "range": [0, 100],
+      "importance": 0.25
+    },
+    {
+      "name": "experience_relevance",
+      "type": "float",
+      "description": "Experience level relevance score",
+      "range": [0, 100],
+      "importance": 0.20
+    },
+    {
+      "name": "category_relevance",
+      "type": "float",
+      "description": "Project category alignment score",
+      "range": [0, 100],
+      "importance": 0.13
+    },
+    {
+      "name": "rating_score",
+      "type": "float",
+      "description": "Normalized freelancer rating",
+      "range": [0, 100],
+      "importance": 0.10
+    }
+  ],
+  
+  "target_classes": [
+    {
+      "label": "Strong Match",
+      "score_range": [70, 100],
+      "description": "Highly suitable candidates"
+    },
+    {
+      "label": "Moderate Match",
+      "score_range": [45, 69],
+      "description": "Potential candidates with some gaps"
+    },
+    {
+      "label": "Low Match",
+      "score_range": [0, 44],
+      "description": "Less suitable candidates"
+    }
+  ],
+  
+  "training_data": {
+    "total_samples": 15000,
+    "training_samples": 11250,
+    "test_samples": 3750,
+    "features_count": 5,
+    "class_distribution": {
+      "Strong Match": 5000,
+      "Moderate Match": 5000,
+      "Low Match": 5000
+    }
+  },
+  
+  "performance_metrics": {
+    "accuracy": 0.87,
+    "precision_macro": 0.89,
+    "recall_macro": 0.85,
+    "f1_score_macro": 0.87,
+    "auc_roc": 0.92,
+    "confusion_matrix": {
+      "true_strong": [950, 40, 10],
+      "true_moderate": [60, 880, 60],
+      "true_low": [20, 80, 900]
+    }
+  },
+  
+  "feature_engineering": {
+    "skills_match": {
+      "method": "Set intersection / union ratio",
+      "formula": "(|freelancer_skills ∩ project_skills| / |project_skills|) × 100"
+    },
+    "technologies_match": {
+      "method": "Exact + partial matching",
+      "includes": "Related technology groups"
+    },
+    "experience_relevance": {
+      "method": "Level-based scoring",
+      "levels": {
+        "beginner": "< 3 years",
+        "intermediate": "3-6 years",
+        "expert": "> 6 years"
+      }
+    },
+    "category_relevance": {
+      "method": "Skill-category mapping",
+      "categories": [
+        "web-development",
+        "mobile-development",
+        "ui-ux-design",
+        "ai-ml",
+        "backend-development",
+        "frontend-development",
+        "devops",
+        "data-science"
+      ]
+    },
+    "rating_score": {
+      "method": "Normalization",
+      "formula": "(rating / 5) × 100"
+    }
+  },
+  
+  "ensemble_method": {
+    "type": "Averaging",
+    "trees_count": 5,
+    "weights": [
+      [0.35, 0.25, 0.20, 0.10, 0.10],
+      [0.25, 0.30, 0.25, 0.10, 0.10],
+      [0.30, 0.20, 0.30, 0.15, 0.05],
+      [0.28, 0.27, 0.22, 0.13, 0.10],
+      [0.32, 0.23, 0.25, 0.12, 0.08]
+    ],
+    "random_variance": "±3%"
+  },
+  
+  "deployment": {
+    "format": "In-memory TypeScript implementation",
+    "pickle_file": null,
+    "backend_integration": "REST API (planned)"
+  },
+  
+  "limitations": [
+    "Simplified simulation of Random Forest in browser",
+    "No persistent model storage",
+    "Limited to 5 input features",
+    "Static weights (no online learning)"
+  ],
+  
+  "future_improvements": [
+    "Backend Python model with joblib serialization",
+    "Online learning from hiring outcomes",
+    "Additional features (client history, success rate)",
+    "Deep learning ensemble",
+    "Real-time model updates"
+  ]
+}

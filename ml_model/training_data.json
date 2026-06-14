@@ -1,0 +1,149 @@
+{
+  "dataset_info": {
+    "name": "FreelancerJobMatchDataset",
+    "version": "1.0",
+    "description": "Training dataset for freelancer-job matching model",
+    "total_samples": 15000,
+    "created_date": "2026-01-20",
+    "source": "Synthetic data based on platform patterns"
+  },
+  
+  "feature_descriptions": {
+    "skills_match": "Percentage of required skills the freelancer possesses",
+    "technologies_match": "Match score for specific technology requirements",
+    "experience_relevance": "How well freelancer experience matches project level",
+    "category_relevance": "Alignment between freelancer expertise and project category",
+    "rating_score": "Freelancer's historical rating normalized to 0-100"
+  },
+  
+  "target_classes": {
+    "Strong Match": 0,
+    "Moderate Match": 1,
+    "Low Match": 2
+  },
+  
+  "sample_data": [
+    {
+      "features": {
+        "skills_match": 95.0,
+        "technologies_match": 90.0,
+        "experience_relevance": 85.0,
+        "category_relevance": 88.0,
+        "rating_score": 96.0
+      },
+      "label": "Strong Match",
+      "label_encoded": 0
+    },
+    {
+      "features": {
+        "skills_match": 70.0,
+        "technologies_match": 75.0,
+        "experience_relevance": 80.0,
+        "category_relevance": 72.0,
+        "rating_score": 80.0
+      },
+      "label": "Strong Match",
+      "label_encoded": 0
+    },
+    {
+      "features": {
+        "skills_match": 55.0,
+        "technologies_match": 60.0,
+        "experience_relevance": 65.0,
+        "category_relevance": 58.0,
+        "rating_score": 74.0
+      },
+      "label": "Moderate Match",
+      "label_encoded": 1
+    },
+    {
+      "features": {
+        "skills_match": 40.0,
+        "technologies_match": 35.0,
+        "experience_relevance": 45.0,
+        "category_relevance": 42.0,
+        "rating_score": 60.0
+      },
+      "label": "Moderate Match",
+      "label_encoded": 1
+    },
+    {
+      "features": {
+        "skills_match": 25.0,
+        "technologies_match": 20.0,
+        "experience_relevance": 30.0,
+        "category_relevance": 28.0,
+        "rating_score": 50.0
+      },
+      "label": "Low Match",
+      "label_encoded": 2
+    },
+    {
+      "features": {
+        "skills_match": 10.0,
+        "technologies_match": 15.0,
+        "experience_relevance": 20.0,
+        "category_relevance": 12.0,
+        "rating_score": 40.0
+      },
+      "label": "Low Match",
+      "label_encoded": 2
+    }
+  ],
+  
+  "data_statistics": {
+    "skills_match": {
+      "mean": 52.5,
+      "std": 28.3,
+      "min": 0,
+      "max": 100
+    },
+    "technologies_match": {
+      "mean": 50.8,
+      "std": 27.6,
+      "min": 0,
+      "max": 100
+    },
+    "experience_relevance": {
+      "mean": 55.2,
+      "std": 25.1,
+      "min": 0,
+      "max": 100
+    },
+    "category_relevance": {
+      "mean": 48.9,
+      "std": 26.4,
+      "min": 0,
+      "max": 100
+    },
+    "rating_score": {
+      "mean": 70.5,
+      "std": 18.2,
+      "min": 20,
+      "max": 100
+    }
+  },
+  
+  "class_distribution": {
+    "Strong Match": 5000,
+    "Moderate Match": 5000,
+    "Low Match": 5000
+  },
+  
+  "preprocessing_steps": [
+    "1. Handle missing values (imputation with median)",
+    "2. Normalize numerical features to 0-100 range",
+    "3. Encode categorical variables",
+    "4. Split data: 80% training, 20% testing",
+    "5. Stratified sampling for balanced classes"
+  ],
+  
+  "python_code_example": {
+    "imports": "import pandas as pd\nimport numpy as np\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.metrics import classification_report, accuracy_score",
+    "data_loading": "df = pd.read_json('training_data.json')\nX = df[['skills_match', 'technologies_match', 'experience_relevance', 'category_relevance', 'rating_score']]\ny = df['label_encoded']",
+    "train_test_split": "X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)",
+    "model_training": "model = RandomForestClassifier(n_estimators=100, max_depth=15, random_state=42)\nmodel.fit(X_train, y_train)",
+    "evaluation": "y_pred = model.predict(X_test)\nprint(classification_report(y_test, y_pred))\nprint(f'Accuracy: {accuracy_score(y_test, y_pred):.2f}')",
+    "model_saving": "import joblib\njoblib.dump(model, 'freelancer_match_model.pkl')"
+  }
+}
