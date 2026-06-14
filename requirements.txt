@@ -1,9 +1,11 @@
-flask
-flask-cors
+
+Flask
+Flask-Cors
+Flask-SQLAlchemy
+Werkzeug
 gunicorn
 numpy
 pandas
-scikit-learn==1.3.2
+scikit-learn
+scipy
 joblib
-Flask-SQLAlchemy==3.1.1
-SQLAlchemy==2.0.32
